@@ -87,6 +87,10 @@ const Styles = styled.div`
     opacity: 0.75;
     font-size: ${({ theme }) => theme.typography.sizes.s}px;
   }
+
+  svg {
+    width: auto !important;
+  }
 `;
 
 class Chart extends React.PureComponent {
@@ -203,6 +207,7 @@ class Chart extends React.PureComponent {
         </Alert>
       );
     }
+
     return (
       <ErrorBoundary
         onError={this.handleRenderContainerFailure}
@@ -212,6 +217,7 @@ class Chart extends React.PureComponent {
           <div
             className={`slice_container ${isFaded ? ' faded' : ''}`}
             data-test="slice-container"
+            style={{width: this.props.width, overflow: "scroll"}}
           >
             <ChartRenderer {...this.props} data-test={this.props.vizType} />
           </div>
