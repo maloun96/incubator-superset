@@ -151,6 +151,33 @@ class ChartRenderer extends React.Component {
     }
   }
 
+  isEchartsTimeseriesLineOrBarType() {
+    const {
+      vizType,
+      formData: { seriesType },
+    } = this.props;
+
+    return (
+      vizType === 'echarts_timeseries' &&
+      (seriesType === 'line' || seriesType === 'bar')
+    );
+  }
+
+  getFormData() {
+    const { formData } = this.props;
+
+    if (!this.isEchartsTimeseriesLineOrBarType()) {
+      return formData;
+    }
+
+    // Apply min and max label for timeseries line and bar chart.
+    return {
+      ...formData,
+      xAxisShowMinLabel: true,
+      xAxisShowMaxLabel: true,
+    };
+  }
+
   render() {
     const {
       chartAlert,
@@ -178,7 +205,6 @@ class ChartRenderer extends React.Component {
       annotationData,
       datasource,
       initialValues,
-      formData,
       queriesResponse,
     } = this.props;
 
@@ -216,7 +242,7 @@ class ChartRenderer extends React.Component {
         annotationData={annotationData}
         datasource={datasource}
         initialValues={initialValues}
-        formData={formData}
+        formData={this.getFormData()}
         hooks={this.hooks}
         queriesData={queriesResponse}
         onRenderSuccess={this.handleRenderSuccess}
